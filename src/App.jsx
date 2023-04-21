@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { updateMessage } from "./actions";
 import store from "./store";
@@ -7,23 +7,21 @@ const App = () => {
   const message = useSelector((state) => state.message);
   const dispatch = useDispatch();
 
-  const handleUpdate = () => {
-    dispatch(updateMessage("Updated State  from redux"));
-  };
+  const [newMessage, setNewMessage] = useState("");
 
-  // useEffect(() => {
-  //   const unsubscribe = store.subscribe(() => {
-  //     const state = store.getState();
-  //     console.log(state);
-  //   });
-  //   return () => {
-  //     unsubscribe();
-  //   };
-  // }, []);
+  const handleUpdate = () => {
+    dispatch(updateMessage(newMessage));
+    setNewMessage("");
+  };
 
   return (
     <div>
       <h1>{message}</h1>
+      <input
+        type="text"
+        value={newMessage}
+        onChange={(e) => setNewMessage(e.target.value)}
+      />
       <button onClick={handleUpdate}>Update message</button>
     </div>
   );
